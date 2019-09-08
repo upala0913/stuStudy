@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		<!-- 属性配置文件加载  classpath: web项目发布到服务器的，要指定编译路径-->
+		<context:property-placeholder location="classpath:dbcfg.properties" />
+		
+	<bean class="com.alibaba.druid.pool.DruidDataSource"
+		id="dataSource">
+		<property name="driverClassName" value="${jdbc_driver}"></property>
+		<property name="url" value="${jdbc_url}"></property>
+		<property name="username" value="${jdbc_user}"></property>
+		<property name="password" value="${jdbc_password}"></property>
+	</bean>
+	
+	<!-- 会话工厂 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
+		<property name="mapperLocations"
+			value="classpath:com/issCollege/stustudy/mapper/*.xml"></property>
+	</bean>
+	<!-- 事务管理器 -->
+	<bean
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		id="dataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 事务注解驱动，注解@Transactional的类和方法将具有事务性 -->
+	<tx:annotation-driven
+		transaction-manager="dataSourceTransactionManager" />
+	<!-- spring和mybatis的整合 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.issCollege.stustudy.mapper"></property>
+	</bean>
+	
+	<!-- 配置事务处理 -->
+	<!-- <tx:advice transaction-manager="transactionManager" id="txadvice">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="list*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.issCollege.banbiShop.service.*.*(..))"
+			id="txpointcut" />
+		<aop:advisor advice-ref="txadvice" pointcut-ref="txpointcut" />
+	</aop:config>
+</beans> -->
+</beans>

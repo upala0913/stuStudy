@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>	
+	 <!-- classPathEntry:数据库的JDBC驱动的jar包地址-->  
+ <!--  	<classPathEntry location="d:/mysql-connector-java-5.1.47.jar" />   -->
+	<context id="testTables" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/stumanager?useSSL=true" userId="stuadmin"
+			password="teacherxue">
+		</jdbcConnection>
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- targetProject:生成PO类的位置,在使用集成工具时此值为项目名称，传统方式时可能给出的是文件夹路径 -->
+		<javaModelGenerator targetPackage="com.issCollege.stustudy.po"
+			targetProject="StuStudy">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+        <!-- targetProject:mapper映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="com.issCollege.stustudy.mapper" 
+			targetProject="StuStudy">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		<!-- targetPackage：mapper接口生成的位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.issCollege.stustudy.mapper" 
+			targetProject="StuStudy">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		<!-- 指定数据库表 -->
+
+		<table schema="" tableName="stuinfo"></table>
+		<table schema="" tableName="course"></table>
+		<table schema="" tableName="exam"></table> 
+		<table schema="" tableName="exam_all_view"></table>
+		<table schema="" tableName="classes"></table>
+		<!-- <table schema="" tableName="stuinfo2"></table> -->
+	</context>
+</generatorConfiguration>
